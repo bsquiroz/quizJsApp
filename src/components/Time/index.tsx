@@ -9,9 +9,6 @@ export const Time = () => {
 	const handleGameLost = useQuestionStore((state) => state.handleGameLost);
 	const time = useQuestionStore((state) => state.time);
 	const handleTime = useQuestionStore((state) => state.handleTime);
-	const secondsforQuestion = useQuestionStore(
-		(state) => state.secondsforQuestion
-	);
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
@@ -36,7 +33,7 @@ export const Time = () => {
 	return (
 		questions.length > 0 && (
 			<div style={{ fontSize: "1.5rem" }}>
-				<h2>{formatTime(time, secondsforQuestion)}</h2>
+				<h2>{formatTime(time)}</h2>
 			</div>
 		)
 	);

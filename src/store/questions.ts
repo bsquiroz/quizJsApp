@@ -13,7 +13,7 @@ interface State {
 	history: HistoryQuiz[];
 	showHistory: boolean;
 	secondsforQuestion: number;
-	fetchQuestions: (limit: number) => Promise<void>;
+	fetchQuestions: (limit: number, seconds: number) => Promise<void>;
 	selectAnswer: (questionId: number, answerIndex: number) => void;
 	goNextQuestion: () => void;
 	goPreviousQuestion: () => void;
@@ -21,7 +21,7 @@ interface State {
 	handleGameLost: () => void;
 	handleTime: () => void;
 	handleHistoryQuiz: (corrects: number, incorrects: number) => void;
-	handleShowHistory: (valie: boolean) => void;
+	handleShowHistory: (value: boolean) => void;
 }
 
 export const useQuestionStore = create<State>()(
@@ -29,7 +29,7 @@ export const useQuestionStore = create<State>()(
 		persist(
 			(set, get) => {
 				return {
-					secondsforQuestion: 60,
+					secondsforQuestion: 30,
 					questions: [],
 					currentQuestion: 0,
 					time: 0,
@@ -56,9 +56,8 @@ export const useQuestionStore = create<State>()(
 							"HANDLE_TIME"
 						);
 					},
-					fetchQuestions: async (limit: number) => {
+					fetchQuestions: async (limit: number, seconds: number) => {
 						const data: Question[] = await getQuestions();
-						const state = get();
 
 						const questions = data
 							.sort(() => Math.random() - 0.5)
@@ -67,8 +66,8 @@ export const useQuestionStore = create<State>()(
 						set(
 							{
 								questions,
-								time:
-									questions.length * state.secondsforQuestion,
+								time: questions.length * seconds,
+								secondsforQuestion: seconds,
 							},
 							false,
 							"FETCH_QUESTIONS"

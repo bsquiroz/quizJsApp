@@ -18,13 +18,7 @@ export const HistoryGame = () => {
 		(state) => state.handleShowHistory
 	);
 
-	const secondsforQuestion = useQuestionStore(
-		(state) => state.secondsforQuestion
-	);
-
 	const history = useQuestionStore((state) => state.history);
-
-	console.log(history);
 
 	return (
 		<Stack gap={5}>
@@ -75,10 +69,7 @@ export const HistoryGame = () => {
 												{incorrects}
 											</TableCell>
 											<TableCell align="right">
-												{formatTime(
-													timeTotal,
-													secondsforQuestion
-												)}
+												{formatTime(timeTotal)}
 											</TableCell>
 										</TableRow>
 									)
